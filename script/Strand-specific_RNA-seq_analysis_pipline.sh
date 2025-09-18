@@ -129,6 +129,26 @@ paste 1 2  >all_nostrand_rev_aa2.txt
 
 cat sORF_450_aa.txt all_nostrand_rev_aa2.txt >sORF_450_aa_all.txt
 
+#get sORF nt sequence and end codon
+awk 'NR>1 && /^>/ {print ""}{printf "%s", $0"|"}' sORF_450_3.fa |cut -d'|' -f 2- |sed 's/|//g' >1
+grep '>' sORF_450_3.fa >2
+paste 2 1 |grep -v 'REVERSE SENSE' >3
+cat 3 |cut -d' ' -f 1 |sed 's/>//g' >1
+cat 3 |cut -d' ' -f 2-4 |sed 's/ //g' |sed 's/\[//g' |sed 's/\]//g' >2
+cat 3 |cut -f 2 >4
+paste 1 2 4 >all_sORF_nt.txt
+
+awk 'NR>1 && /^>/ {print ""}{printf "%s", $0"|"}' final_nocoding_trans_rmChrm.fa |cut -d'|' -f 2- |sed 's/|//g' >1
+grep '>' final_nocoding_trans_rmChrm.fa |cut -d' ' -f 1 |sed 's/>//g' >2
+paste 2 1 >lncRNA.txt
+#get the positon of sORF in lncRNA
+less -SN all_sORF_nt.txt |cut -f 1,2 |cut -d'_' -f 1,2 >1
+less all_sORF_nt.txt |cut -f 2 >2
+paste 1 2 >pos.txt
+
+#get sROF end condons
+awk 'ARGIND==1{a[$1]=$2}ARGIND>1{split($2,pos,"-");start=pos[2]+1;end=pos[2]+3;print $1"\t" substr(a[$1],start,3)}' ../B.nap.lncRNA-PLncDB.txt pos.txt |awk '{print $1"\t"toupper($2)}' >end_pos.txt
+paste all_sORF_nt.txt end_pos.txt |cut -f 1,2,3,5 |awk '{if($4=="TAG"||$4=="TGA"||$4=="TAA")print $0}' >all_sORF_nt_filter.txt
 
 #get sORF bed file
 python get_sORF_bed.py
