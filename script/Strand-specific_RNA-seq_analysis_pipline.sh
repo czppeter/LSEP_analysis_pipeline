@@ -128,3 +128,22 @@ cat all_nostrand_rev_aa.txt  |cut -f 2  >2
 paste 1 2  >all_nostrand_rev_aa2.txt
 
 cat sORF_450_aa.txt all_nostrand_rev_aa2.txt >sORF_450_aa_all.txt
+
+
+#get sORF bed file
+python get_sORF_bed.py
+
+# remove repeat sORF
+python get_rm_full_overlap.py
+
+
+
+
+
+
+
+
+
+
+
+
