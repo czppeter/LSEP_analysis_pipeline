@@ -6,7 +6,7 @@ done
 
 
 #step2
-#remove rRNA/tRNA, download from:https://rnacentral.org/
+#remove rRNA/tRNA/snoRNA/snRNA, download from:https://rnacentral.org/
 #BSUB -n 12
 #BSUB -o rRNA.log
 source ~/env/samtools.env
