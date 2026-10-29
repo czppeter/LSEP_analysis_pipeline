@@ -147,7 +147,7 @@ less all_sORF_nt.txt |cut -f 2 >2
 paste 1 2 >pos.txt
 
 #get sROF end condons
-awk 'ARGIND==1{a[$1]=$2}ARGIND>1{split($2,pos,"-");start=pos[2]+1;end=pos[2]+3;print $1"\t" substr(a[$1],start,3)}' ../B.nap.lncRNA-PLncDB.txt pos.txt |awk '{print $1"\t"toupper($2)}' >end_pos.txt
+awk 'ARGIND==1{a[$1]=$2}ARGIND>1{split($2,pos,"-");start=pos[2]+1;end=pos[2]+3;print $1"\t" substr(a[$1],start,3)}' ../lncRNA.txt pos.txt |awk '{print $1"\t"toupper($2)}' >end_pos.txt
 paste all_sORF_nt.txt end_pos.txt |cut -f 1,2,3,5 |awk '{if($4=="TAG"||$4=="TGA"||$4=="TAA")print $0}' >all_sORF_nt_filter.txt
 
 #get sORF bed file
